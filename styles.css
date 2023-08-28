@@ -11,9 +11,9 @@ body {
 .container {
     display: flex;
     flex-direction: column;
-    background-color: white;
+    background-color: black;
     border-radius: 10px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+    box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.3);
     overflow: hidden;
     width: 400px;
 }
@@ -39,8 +39,32 @@ header {
 .board {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
     gap: 2px;
     padding: 20px;
+    position: relative;
+}
+
+/* New styles for the grid lines */
+.board::before,
+.board::after {
+    content: "";
+    position: absolute;
+    background-color: white;
+}
+
+.board::before {
+    width: 2px;
+    height: 100%;
+    top: 0;
+    left: calc(33.33% - 1px);
+}
+
+.board::after {
+    width: 2px;
+    height: 100%;
+    top: 0;
+    left: calc(66.66% - 1px);
 }
 
 .cell {
@@ -50,7 +74,7 @@ header {
     font-size: 2rem;
     width: 100px;
     height: 100px;
-    background-color: #eee;
+    background-color: #ffffff;
     cursor: pointer;
 }
 
