@@ -1,18 +1,53 @@
-const board = document.getElementById("board");
-const cells = [];
+// script.js
 
-let currentPlayer = "X";
-let scores = { X: 0, O: 0 };
+const cells = document.querySelectorAll('.box');
+const playerX = "X";
+const playerO = "O";
+let currentPlayer = playerX;
+let scores = {
+    [playerX]: 0,
+    [playerO]: 0
+};
 
 function checkWin(player) {
-    // Logic to check if the player has won
-    // Return true if the player has won, otherwise false
+    // Define winning combinations
+    const winCombinations = [
+        [0, 1, 2], [3, 4, 5], [6, 7, 8], // Rows
+        [0, 3, 6], [1, 4, 7], [2, 5, 8], // Columns
+        [0, 4, 8], [2, 4, 6]            // Diagonals
+    ];
+
+    // Check each winning combination
+    for (const combination of winCombinations) {
+        const [a, b, c] = combination;
+        if (
+            cells[a].textContent === player &&
+            cells[b].textContent === player &&
+            cells[c].textContent === player
+        ) {
+            return true; // Player wins
+        }
+    }
+
+    return false; // Player doesn't win
 }
 
+
 function updateScores() {
-    document.getElementById("scoreX").textContent = scores.X;
-    document.getElementById("scoreO").textContent = scores.O;
+    document.getElementById("scoreX").textContent = scores[playerX];
+    document.getElementById("scoreO").textContent = scores[playerO];
 }
+
+function resetBoard() {
+    cells.forEach(cell => {
+        cell.textContent = ""; // Clear cell content
+    });
+
+    currentPlayer = playerX; // Reset to Player X's turn
+    document.getElementById("playerX").classList.add("active");
+    document.getElementById("playerO").classList.remove("active");
+}
+
 
 function handleClick(event) {
     const cell = event.target;
@@ -23,32 +58,16 @@ function handleClick(event) {
             scores[currentPlayer]++;
             updateScores();
             resetBoard();
-        } else if (cells.every(cell => cell.textContent !== "")) {
+        } else if (Array.from(cells).every(cell => cell.textContent !== "")) {
             resetBoard();
         } else {
-            currentPlayer = currentPlayer === "X" ? "O" : "X";
+            currentPlayer = currentPlayer === playerX ? playerO : playerX;
             document.getElementById("playerX").classList.toggle("active");
             document.getElementById("playerO").classList.toggle("active");
         }
     }
 }
 
-function resetBoard() {
-    cells.forEach(cell => cell.textContent = "");
-    currentPlayer = "X";
-    document.getElementById("playerX").classList.add("active");
-    document.getElementById("playerO").classList.remove("active");
-}
-
-function createBoard() {
-    for (let i = 0; i < 9; i++) {
-        const cell = document.createElement("div");
-        cell.classList.add("cell");
-        cell.addEventListener("click", handleClick);
-        cells.push(cell);
-        board.appendChild(cell);
-    }
-    document.getElementById("playerX").classList.add("active");
-}
-
-createBoard();
+cells.forEach(cell => {
+    cell.addEventListener('click', handleClick);
+});
