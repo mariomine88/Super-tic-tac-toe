@@ -1,36 +1,27 @@
 body {
-    margin: 0;
-    padding: 0;
-    min-height: 100vh;
     background-color: black;
-    display: flex;
-}
-
-#score {
-    vertical-align: top;
-    text-align: top; /* Center the content horizontally */
-    margin-bottom: 20px; /* Add some spacing between score and the grid */
     color: white;
 }
 
+#score {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    font-size: 2rem;
+}
+
 .player {
-    display: block;
-    display: inline; /* Display the player box contents in a row */
-    align-items: center; /* Center the content vertically */
-    margin: 0 10px; /* Add some space between player boxes */
-    align-items: center;
+    display:flex;
+    flex-direction: column;
+}
+
+span {
+    display:flex;
+    justify-content: center;
+    font-size: 2em;
     margin: 10px;
 }
 
-.player span {
-    font-size: 2rem;
-    margin-right: 10px;
-}
-
-.score0 { 
-    position: relative;
-    bottom: 40px;
-}
 
 #board {
     display: grid;
@@ -42,21 +33,34 @@ body {
     top: 50%; /* Position from the top */
     left: 50%; /* Position from the left */
     transform: translate(-50%, -50%); /* Center the grid */
+}
+
+#clear {
+    position: absolute; /* Use "absolute" instead of "relative" for centering */
+    top: 80%; /* Position from the top */
+    left: 50%; 
+    transform: translate(-50%, -50%);
     background-color: black;
-    margin-top: 20px;
+    color: white;
+    font-size: 5rem;
+    cursor: pointer;
+    border-radius: 25px;
+}
+
+#clear:hover {
+    background: rgba(255, 255, 255, 0.5)
 }
 
 .box {
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 2rem;
+    font-size: 5rem;
     width: 150px;
     height: 150px;
     color: #ffffff;
     border-right: 3px solid ;
     border-bottom: 3px solid ;
-    background-color: #000000;
     cursor: pointer;
 }
 
@@ -67,3 +71,7 @@ body {
 .box:nth-child(6) ~ .box {
     border-bottom: none ;
 }   
+
+.box:hover {
+    background: rgba(255, 255, 255, 0.5)
+}

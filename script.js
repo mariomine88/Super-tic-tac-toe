@@ -1,5 +1,3 @@
-// script.js
-
 const cells = document.querySelectorAll('.box');
 const playerX = "X";
 const playerO = "O";
@@ -25,6 +23,9 @@ function checkWin(player) {
             cells[b].textContent === player &&
             cells[c].textContent === player
         ) {
+            document.getElementById(a).style.background = "rgba(255, 255, 255, 0.5)";
+            document.getElementById(b).style.background = "rgba(255, 255, 255, 0.5)";
+            document.getElementById(c).style.background = "rgba(255, 255, 255, 0.5)";
             return true; // Player wins
         }
     }
@@ -41,6 +42,7 @@ function updateScores() {
 function resetBoard() {
     cells.forEach(cell => {
         cell.textContent = ""; // Clear cell content
+        cell.style.background = "rgb(0,0,0)"; 
     });
 
     currentPlayer = playerX; // Reset to Player X's turn
@@ -57,7 +59,7 @@ function handleClick(event) {
         if (checkWin(currentPlayer)) {
             scores[currentPlayer]++;
             updateScores();
-            resetBoard();
+
         } else if (Array.from(cells).every(cell => cell.textContent !== "")) {
             resetBoard();
         } else {
