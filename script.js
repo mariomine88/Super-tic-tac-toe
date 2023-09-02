@@ -74,3 +74,4 @@ function handleClick(event) {
 cells.forEach(cell => {
     cell.addEventListener('click', handleClick);
 });
+//hello
