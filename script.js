@@ -2,6 +2,7 @@ const cells = document.querySelectorAll('.box');
 const playerX = "X";
 const playerO = "O";
 let currentPlayer = playerX;
+let gamefinished = false;
 let scores = {
     [playerX]: 0,
     [playerO]: 0
@@ -42,9 +43,9 @@ function updateScores() {
 function resetBoard() {
     cells.forEach(cell => {
         cell.textContent = ""; // Clear cell content
-        cell.style.background = "rgb(0,0,0)"; 
+        cell.style.removeProperty("background"); 
     });
-
+    gamefinished = false;
     currentPlayer = playerX; // Reset to Player X's turn
     document.getElementById("playerX").classList.add("active");
     document.getElementById("playerO").classList.remove("active");
@@ -56,11 +57,11 @@ function handleClick(event) {
     if (cell.textContent === "") {
         cell.textContent = currentPlayer;
         
-        if (checkWin(currentPlayer)) {
+        if (checkWin(currentPlayer) && !gamefinished) {
             scores[currentPlayer]++;
             updateScores();
-
-        } else if (Array.from(cells).every(cell => cell.textContent !== "")) {
+            gamefinished = true;
+        } else if (Array.from(cells).every(cell => cell.textContent !== "") && !gamefinished) {
             resetBoard();
         } else {
             currentPlayer = currentPlayer === playerX ? playerO : playerX;
