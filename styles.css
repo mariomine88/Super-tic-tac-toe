@@ -1,77 +1,65 @@
 body {
-    background-color: black;
-    color: white;
-}
-
-#score {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    font-size: 2rem;
-}
-
-.player {
-    display:flex;
-    flex-direction: column;
-}
-
-span {
-    display:flex;
-    justify-content: center;
-    font-size: 2em;
-    margin: 10px;
-}
-
-
-#board {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(3, 1fr);
-    gap: 0px;
-    padding: 20px;
-    position: absolute; /* Use "absolute" instead of "relative" for centering */
-    top: 50%; /* Position from the top */
-    left: 50%; /* Position from the left */
-    transform: translate(-50%, -50%); /* Center the grid */
-}
-
-#clear {
-    position: absolute; /* Use "absolute" instead of "relative" for centering */
-    top: 80%; /* Position from the top */
-    left: 50%; 
-    transform: translate(-50%, -50%);
-    background-color: black;
-    color: white;
-    font-size: 5rem;
-    cursor: pointer;
-    border-radius: 25px;
-}
-
-#clear:hover {
-    background: rgba(255, 255, 255, 0.5)
-}
-
-.box {
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 5rem;
-    width: 150px;
-    height: 150px;
-    color: #ffffff;
-    border-right: 3px solid ;
-    border-bottom: 3px solid ;
-    cursor: pointer;
+    height: 100vh;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
 }
 
-.box:nth-child(3n) {
-    border-right: none ;
-}   
+#tic-tac-toe-board {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    justify-items: center;
+    align-items: center;
+    border: 3px solid #000; /* Add a thicker border to the larger grid */
+}
 
-.box:nth-child(6) ~ .box {
-    border-bottom: none ;
-}   
+.board {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 5px;
+    width: 100%;
+    height: 100%;
+    border: 2px solid #666; /* Add a medium-thick border to the smaller grids */
+}
 
-.box:hover {
-    background: rgba(255, 255, 255, 0.5)
+.cell {
+    border: 1px solid black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 2em;
+    padding: 5px;
+    background-color: #fff;
+    min-width: 60px;
+    min-height: 60px;
+    box-sizing: border-box;
+}
+
+#reset {
+    margin-top: 20px;
+    padding: 10px 20px;
+    border: none;
+    background-color: #007BFF;
+    color: #fff;
+    cursor: pointer;
+    font-size: 1em;
+}
+
+#reset:hover {
+    background-color: #0056b3;
+}
+
+#score {
+    margin-top: 20px;
+    font-size: 1.2em;
+}
+
+.active-board {
+    border: 3px solid red;
 }

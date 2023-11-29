@@ -1,77 +1,89 @@
-const cells = document.querySelectorAll('.box');
-const playerX = "X";
-const playerO = "O";
-let currentPlayer = playerX;
-let gamefinished = false;
-let scores = {
-    [playerX]: 0,
-    [playerO]: 0
-};
+let mainBoard = document.getElementById('tic-tac-toe-board');
+let scoreElement = document.getElementById('score');
 
-function checkWin(player) {
-    // Define winning combinations
-    const winCombinations = [
-        [0, 1, 2], [3, 4, 5], [6, 7, 8], // Rows
-        [0, 3, 6], [1, 4, 7], [2, 5, 8], // Columns
-        [0, 4, 8], [2, 4, 6]            // Diagonals
+for (let i = 0; i < 9; i++) {
+    let board = document.createElement('div');
+    board.className = 'board';
+    board.id = 'board-' + i;
+    for (let j = 0; j < 9; j++) {
+        let cell = document.createElement('div');
+        cell.className = 'cell';
+        board.appendChild(cell);
+    }
+    mainBoard.insertBefore(board, scoreElement);
+}
+
+let boards = Array(9).fill().map(() => Array(9).fill(null));
+let turn = 'X';
+let score = { X: 0, O: 0 };
+let nextBoard = null;
+
+function checkWin(board) {
+    const lines = [
+        [0, 1, 2],
+        [3, 4, 5],
+        [6, 7, 8],
+        [0, 3, 6],
+        [1, 4, 7],
+        [2, 5, 8],
+        [0, 4, 8],
+        [2, 4, 6]
     ];
-
-    // Check each winning combination
-    for (const combination of winCombinations) {
-        const [a, b, c] = combination;
-        if (
-            cells[a].textContent === player &&
-            cells[b].textContent === player &&
-            cells[c].textContent === player
-        ) {
-            document.getElementById(a).style.background = "rgba(255, 255, 255, 0.5)";
-            document.getElementById(b).style.background = "rgba(255, 255, 255, 0.5)";
-            document.getElementById(c).style.background = "rgba(255, 255, 255, 0.5)";
-            return true; // Player wins
+    for (let line of lines) {
+        if (board[line[0]] && board[line[0]] === board[line[1]] && board[line[0]] === board[line[2]]) {
+            return board[line[0]];
         }
     }
-
-    return false; // Player doesn't win
+    return null;
 }
 
-
-function updateScores() {
-    document.getElementById("scoreX").textContent = scores[playerX];
-    document.getElementById("scoreO").textContent = scores[playerO];
+function updateScore() {
+    document.getElementById('score').textContent = `X: ${score.X}, O: ${score.O}`;
 }
 
-function resetBoard() {
-    cells.forEach(cell => {
-        cell.textContent = ""; // Clear cell content
-        cell.style.removeProperty("background"); 
+document.querySelectorAll('.board').forEach((boardElement, boardIndex) => {
+    boardElement.querySelectorAll('.cell').forEach((cell, cellIndex) => {
+        cell.addEventListener('click', () => {
+            if (!boards[boardIndex][cellIndex] && (nextBoard === null || nextBoard === boardIndex)) {
+                boards[boardIndex][cellIndex] = turn;
+                cell.textContent = turn;
+                if (checkWin(boards[boardIndex])) {
+                    score[turn]++;
+                    updateScore();
+                    boards[boardIndex] = Array(9).fill(null);
+                    document.querySelectorAll(`#board-${boardIndex} .cell`).forEach(cell => {
+
+                    });
+                }
+                nextBoard = cellIndex;
+                turn = turn === 'X' ? 'O' : 'X';
+
+                // Remove active-board class from all boards
+                document.querySelectorAll('.board').forEach(board => {
+                    board.classList.remove('active-board');
+                });
+
+                // Add active-board class to the next board
+                if (nextBoard !== null) {
+                    document.querySelectorAll('.board')[nextBoard].classList.add('active-board');
+                }
+            }
+        });
     });
-    gamefinished = false;
-    currentPlayer = playerX; // Reset to Player X's turn
-    document.getElementById("playerX").classList.add("active");
-    document.getElementById("playerO").classList.remove("active");
-}
-
-
-function handleClick(event) {
-    const cell = event.target;
-    if (cell.textContent === "") {
-        cell.textContent = currentPlayer;
-        
-        if (checkWin(currentPlayer) && !gamefinished) {
-            scores[currentPlayer]++;
-            updateScores();
-            gamefinished = true;
-        } else if (Array.from(cells).every(cell => cell.textContent !== "") && !gamefinished) {
-            resetBoard();
-        } else {
-            currentPlayer = currentPlayer === playerX ? playerO : playerX;
-            document.getElementById("playerX").classList.toggle("active");
-            document.getElementById("playerO").classList.toggle("active");
-        }
-    }
-}
-
-cells.forEach(cell => {
-    cell.addEventListener('click', handleClick);
 });
-//hello
+
+document.getElementById('reset').addEventListener('click', () => {
+    boards = Array(9).fill().map(() => Array(9).fill(null));
+    turn = 'X';
+    nextBoard = null;
+    document.querySelectorAll('.cell').forEach(cell => {
+        cell.textContent = '';
+    });
+    score = { X: 0, O: 0 };
+    updateScore();
+
+    // Remove active-board class from all boards
+    document.querySelectorAll('.board').forEach(board => {
+        board.classList.remove('active-board');
+    });
+});
